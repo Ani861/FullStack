@@ -14,14 +14,11 @@ severity:String,
 
 description:String,
 
+anonymous:Boolean,
+
 status:{
 type:String,
 default:"New"
-},
-
-assignedManager:{
-type:mongoose.Schema.Types.ObjectId,
-ref:"User"
 },
 
 createdAt:{
