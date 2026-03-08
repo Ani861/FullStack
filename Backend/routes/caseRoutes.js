@@ -5,7 +5,16 @@ router.post("/", async (req,res)=>{
 
 try{
 
-const newCase = new Case(req.body)
+const year = new Date().getFullYear()
+
+const count = await Case.countDocuments()
+
+const trackingId = `NEO-${year}-${String(count+1).padStart(3,"0")}`
+
+const newCase = new Case({
+...req.body,
+trackingId
+})
 
 await newCase.save()
 
@@ -19,19 +28,13 @@ res.status(500).json(err)
 
 })
 
-router.get("/", async (req,res)=>{
 
-try{
+
+router.get("/", async(req,res)=>{
 
 const cases = await Case.find()
 
 res.json(cases)
-
-}catch(err){
-
-res.status(500).json(err)
-
-}
 
 })
 
