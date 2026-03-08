@@ -3,9 +3,9 @@ const User = require("../models/user")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
-router.post("/login", async(req,res)=>{
+router.post("/login", async (req,res)=>{
 
-const {email,password}=req.body
+const {email,password} = req.body
 
 const user = await User.findOne({email})
 
@@ -22,7 +22,13 @@ const token = jwt.sign(
 process.env.JWT_SECRET
 )
 
-res.json({token,user})
+res.json({
+token,
+user:{
+id:user._id,
+role:user.role
+}
+})
 
 })
 

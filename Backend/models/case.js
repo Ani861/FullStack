@@ -21,10 +21,7 @@ status:{
   default:"New"
 },
 
-assignedManager:{
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "User"
-},
+assignedManager:String,
 
 notes:String,
 
