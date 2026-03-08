@@ -1,5 +1,7 @@
+
 const router = require("express").Router()
 const Case = require("../models/case")
+const auth = require("../middleware/authMiddleware")
 
 async function checkEscalation(){
   const cases = await Case.find({ status: "Assigned" })
@@ -42,9 +44,8 @@ res.status(500).json(err)
 
 })
 
-
-
-router.get("/", async(req,res)=>{
+// Protected routes - require authentication
+router.get("/", auth(), async(req,res)=>{
 
 await checkEscalation()
 
@@ -54,7 +55,7 @@ res.json(cases)
 
 })
 
-router.get("/new", async(req,res)=>{
+router.get("/new", auth(), async(req,res)=>{
 
 await checkEscalation()
 
@@ -65,7 +66,7 @@ res.json(cases)
 })
 
 
-router.put("/assign/:id", async(req,res)=>{
+router.put("/assign/:id", auth(), async(req,res)=>{
 
 try{
   const {managerId} = req.body
@@ -87,7 +88,7 @@ try{
 })
 
 
-router.get("/manager/:id", async(req,res)=>{
+router.get("/manager/:id", auth(), async(req,res)=>{
 
 await checkEscalation()
 
@@ -100,7 +101,7 @@ res.json(cases)
 })
 
 
-router.put("/update/:id", async(req,res)=>{
+router.put("/update/:id", auth(), async(req,res)=>{
 
 try{
   const {status,notes} = req.body
@@ -121,7 +122,7 @@ try{
 
 })
 
-router.get("/impact", async(req,res)=>{
+router.get("/impact", auth(), async(req,res)=>{
 
 const resolved = await Case.find({
 status:"Resolved"
@@ -131,7 +132,7 @@ res.json(resolved)
 
 })
 
-router.get("/analytics/departments", async (req,res)=>{
+router.get("/analytics/departments", auth(), async (req,res)=>{
 
 try{
 
@@ -154,7 +155,7 @@ res.status(500).json(err)
 
 })
 
-router.get("/analytics/hotspots", async (req,res)=>{
+router.get("/analytics/hotspots", auth(), async (req,res)=>{
 
 try{
 
@@ -189,3 +190,4 @@ res.status(500).json(err)
 })
 
 module.exports = router
+
