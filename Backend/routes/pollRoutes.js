@@ -10,4 +10,30 @@ router.post("/", async (req, res) => {
   }
 })
 
+router.get("/", async(req,res)=>{
+
+const polls = await Poll.find()
+
+res.json(polls)
+})
+
+router.post("/vote", async(req,res)=>{
+
+const {pollId,userId,option}=req.body
+
+const poll = await Poll.findById(pollId)
+
+const voted = poll.votes.find(v=>v.userId===userId)
+
+if(voted)
+return res.json("Already voted")
+
+poll.votes.push({userId,option})
+
+await poll.save()
+
+res.json("Vote recorded")
+
+})
+
 module.exports = router

@@ -38,4 +38,14 @@ res.json(cases)
 
 })
 
+router.get("/impact", async(req,res)=>{
+
+const resolved = await Case.find({
+status:"Resolved"
+})
+
+res.json(resolved)
+
+})
+
 module.exports = router
