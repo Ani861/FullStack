@@ -17,13 +17,20 @@ description:String,
 anonymous:Boolean,
 
 status:{
-type:String,
-default:"New"
+  type:String,
+  default:"New"
 },
 
+assignedManager:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User"
+},
+
+notes:String,
+
 createdAt:{
-type:Date,
-default:Date.now
+  type:Date,
+  default:Date.now
 }
 
 })
